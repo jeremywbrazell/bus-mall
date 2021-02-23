@@ -1,0 +1,29 @@
+*{
+    box-sizing: border-box;
+   }
+#Busmall {
+    text-align: center;
+    font-size: 45px;
+}
+#all-images {
+    display: flex;
+
+}
+main {
+    margin: 0 auto; 
+}
+
+b.images {
+    display: flex;
+}
+
+img {
+    max-height: 300px;
+    max-width: 100%;
+    margin: 25px;
+
+}
+
+p {
+    text-align: center;
+}
