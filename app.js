@@ -172,6 +172,8 @@ createPictures();
 pickNewPictures();
 renderNewImages();
 
+// test
+
 
 
 
