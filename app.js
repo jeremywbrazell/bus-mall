@@ -9,11 +9,11 @@ let totalClicks = 1;
 // set these at the top for easy/safe use later in script.
 const allImagesTag = document.getElementById('all-images')
 const imageOneTag = document.getElementById('left-image')
-// const imageOneCaption = document.getElementById('left-image-caption')
+const imageOneCaption = document.getElementById('left-image-caption')
 const imageTwoTag = document.getElementById('center-image')
-// const imageTwoCaption = document.getElementById('center-image-caption')
+const imageTwoCaption = document.getElementById('center-image-caption')
 const imageThreeTag = document.getElementById('right-image')
-// const imageThreeCaption = document.getElementById('right-image-caption')
+const imageThreeCaption = document.getElementById('right-image-caption')
 const renderResults = document.getElementById('results')
 
 //will be defined soon
@@ -47,15 +47,17 @@ function pickNewPictures() {
     shuffle(Picture.all);
     const safeProducts = [];
     for (let i = 0; i < Picture.all.length; i++) {
-        let picture = Picture.all[i];
-        if (picture !== leftImageObject && picture !== centerImageObject && picture !== rightImageObject) {
-            safeProducts.push(picture);
-            if (safeProducts.length ===3) {
+        const candidatePicture = Picture.all[i];
+        if (candidatePicture !== leftImageObject && candidatePicture !== centerImageObject && candidatePicture !== rightImageObject) {
+            safeProducts.push(candidatePicture);
+            if (safeProducts.length === 3) {
                 break;
             }
-           
         }
-    }   
+
+
+    }
+
     leftImageObject = safeProducts[0];
     centerImageObject = safeProducts[1];
     rightImageObject = safeProducts[2];
@@ -66,15 +68,15 @@ function pickNewPictures() {
 function renderNewImages() {
     imageOneTag.src = leftImageObject.url;
     imageOneTag.alt = leftImageObject.caption;
-    // imageOneCaption.textContent = leftImageObject.caption
+    imageOneCaption.textContent = leftImageObject.caption
 
     imageTwoTag.src = centerImageObject.url;
     imageTwoTag.alt = centerImageObject.caption;
-    // imageTwoCaption.textContent = centerImageObject.caption;
+    imageTwoCaption.textContent = centerImageObject.caption;
 
     imageThreeTag.src = rightImageObject.url;
     imageThreeTag.alt = rightImageObject.caption;
-    // imageThreeCaption.textContent = rightImageObject.caption;
+    imageThreeCaption.textContent = rightImageObject.caption;
 
 }
 //https://medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
@@ -122,7 +124,7 @@ function imageClickHandler(event) {
         allImagesTag.removeEventListener('click', imageClickHandler);
         document.getElementById('results');
         const resultsButton = document.getElementById('results-button');
-        resultsButton.addEventListener('click',renderList)
+        resultsButton.addEventListener('click', renderList)
     }
 }
 
@@ -134,10 +136,10 @@ function renderList() {
         const itemPictureElem = document.createElement('li');
         renderLikesElem.appendChild(itemPictureElem);
         itemPictureElem.textContent = itemPicture.caption + ' : ' + itemPicture.clickCtr;
-    }  
-    renderChart(); 
-}   
- 
+    }
+    renderChart();
+}
+
 function renderChart() {
     let tallyArray = []
     for (let i = 0; i < Picture.all.length; i++) {
@@ -146,23 +148,23 @@ function renderChart() {
     }
     const ctx = document.getElementById('canvas').getContext('2d');
     const chart = new Chart(ctx, {
-      // The type of chart we want to create
-      type: 'horizontalBar',
-      // The data for our dataset
-      data: {
-        labels: pictureNames,
-        datasets: [{
-          label: 'Most Clicked',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          // TODO: get the "good" product data in here
-          data: tallyArray
-        }]
-      },
-      // Configuration options go here
-      options: {}
+        // The type of chart we want to create
+        type: 'horizontalBar',
+        // The data for our dataset
+        data: {
+            labels: pictureNames,
+            datasets: [{
+                label: 'Most Clicked',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                // TODO: get the "good" product data in here
+                data: tallyArray
+            }]
+        },
+        // Configuration options go here
+        options: {}
     });
-  }
+}
 allImagesTag.addEventListener('click', imageClickHandler)
 
 
@@ -174,4 +176,4 @@ renderNewImages();
 
 
 
-    
+
