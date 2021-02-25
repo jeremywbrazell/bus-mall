@@ -2,9 +2,9 @@
 
 
 const pictureNames = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
-
-const maxClicks = 6;
-let totalClicks = 1;
+console.log(pictureNames);
+const maxClicks = 26;
+let totalClicks = 0;
 
 // set these at the top for easy/safe use later in script.
 const allImagesTag = document.getElementById('all-images')
@@ -34,14 +34,33 @@ function Picture(caption, url) {
     // "Picture" is the constructor function and "all" is the array name
 }
 Picture.all = [];
-
-function createPictures() {
+console.log(Picture)
+function createImagesFromScratch() {
     for (let i = 0; i < pictureNames.length; i++) {
-        const pictureName = pictureNames[i];
-        new Picture(pictureName, './images/' + pictureName + '.jpg');
+        const imageName = pictureNames[i];
+        new Picture(imageName, ' ./images/' + imageName + '.jpg');
+    }
+  
+}
+
+function createImagesFromStorage(storageGet) {
+    const javaScriptPics = JSON.parse(storageGet);
+    for (let i = 0; i < javaScriptPics.length; i++) {
+        const rawData = javaScriptPics[i];
+        const newPictureInst = new Picture(rawData.caption, rawData.url);
+        newPictureInst.clickCtr = rawData.clickCtr;
+        newPictureInst.displayctr = rawData.displayctr;
     }
 }
 
+function createPictureInstances() {
+    const storageGet = localStorage.getItem('images');
+    if (storageGet === null) {
+        createImagesFromScratch();
+    } else {
+        createImagesFromScratch(storageGet);
+    }
+}
 
 function pickNewPictures() {
     shuffle(Picture.all);
@@ -54,14 +73,12 @@ function pickNewPictures() {
                 break;
             }
         }
-
-
     }
 
     leftImageObject = safeProducts[0];
     centerImageObject = safeProducts[1];
     rightImageObject = safeProducts[2];
-    // console.log(leftImageObject);
+   
 
 }
 
@@ -93,6 +110,11 @@ function imageClickHandler(event) {
 
     const pictureId = event.target.id;
     console.log(event);
+    leftImageObject.displayctr += 1;
+    centerImageObject.displayctr += 1;
+    rightImageObject.displayctr += 1;
+
+
     switch (pictureId) {
 
         case imageOneTag.id:
@@ -119,15 +141,18 @@ function imageClickHandler(event) {
         default:
             alert('mind the gap!');
     }
-
+console.log(totalClicks);
     if (totalClicks === maxClicks) {
         allImagesTag.removeEventListener('click', imageClickHandler);
-        document.getElementById('results');
+        alert('PLEASE STOP CLICKING AND VIEW RESULTS!')
+        const JSONPics = JSON.stringify(Picture.all)
+        localStorage.setItem('pictures', JSONPics);
+
         const resultsButton = document.getElementById('results-button');
         resultsButton.addEventListener('click', renderList)
+            
     }
 }
-
 function renderList() {
     const renderLikesElem = document.getElementById('results');
     renderLikesElem.innerHTML = '';
@@ -135,16 +160,23 @@ function renderList() {
         const itemPicture = Picture.all[i];
         const itemPictureElem = document.createElement('li');
         renderLikesElem.appendChild(itemPictureElem);
-        itemPictureElem.textContent = itemPicture.caption + ' : ' + itemPicture.clickCtr;
+        itemPictureElem.textContent = itemPicture.caption + ' : ' + itemPicture.clickCtr + ' clicks out of ' + itemPicture.displayctr + ' views';
+        
     }
     renderChart();
 }
 
 function renderChart() {
+    let viewsArray = []
     let tallyArray = []
+    let productTitle = []
     for (let i = 0; i < Picture.all.length; i++) {
+        const productViews = Picture.all[i].displayctr;
         const productTally = Picture.all[i].clickCtr;
+        const productName = Picture.all[i].caption;
         tallyArray.push(productTally);
+        viewsArray.push(productViews);
+        productTitle.push(productName);
     }
     const ctx = document.getElementById('canvas').getContext('2d');
     const chart = new Chart(ctx, {
@@ -152,28 +184,34 @@ function renderChart() {
         type: 'horizontalBar',
         // The data for our dataset
         data: {
-            labels: pictureNames,
+            labels: productTitle,
             datasets: [{
                 label: 'Most Clicked',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 // TODO: get the "good" product data in here
                 data: tallyArray
+
+            },
+            {
+            label: 'Items Viewed',
+                backgroundColor: 'rgb(10, 200, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                // TODO: get the "good" product data in here
+                data: viewsArray
             }]
         },
         // Configuration options go here
         options: {}
     });
 }
+
 allImagesTag.addEventListener('click', imageClickHandler)
 
+createPictureInstances();
 
-createPictures();
 pickNewPictures();
+
 renderNewImages();
-
-
-
-
 
 
