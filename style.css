@@ -1,16 +1,38 @@
 *{
     box-sizing: border-box;
+    background-color: azure;
+    margin: 0 auto;
    }
 #Busmall {
     text-align: center;
-    font-size: 45px;
+    font-size: 100px;
+    color:darkcyan;
+    text-shadow: 2px 2px #000000;
+    
+}
+
+#Pick {
+    text-align: center;
+    font-size: 35px;
+    font-weight:lighter;
+    color:rgb(170, 169, 169);
 }
 #all-images {
     display: flex;
+    
+}
+
+#all-images img {
+    border: 2px solid black;
+    border-radius: .1px;
+    
+    
 
 }
 main {
     margin: 0 auto; 
+    text-align: center;
+   
 }
 
 b.images {
@@ -21,16 +43,28 @@ img {
     max-height: 300px;
     max-width: 100%;
     margin: 25px;
-
-
 }
 
 p {
     text-align: center;
+    font-weight: bold;
+    font-size: 30px
+    
 }
 
 button {
-    margin: 0 auto;
-    position: relative;
-    left: 450px;
+    background-color:rgb(56, 56, 56);
+    color: rgb(255, 255, 255);
+    padding: 20px 20px 20px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-radius: 100px;
+    margin: 5px;
+    margin-top: 25px;
+}
+
+#results {
+    display: flex;
+    justify-content: center;
+
 }

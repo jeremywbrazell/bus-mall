@@ -186,7 +186,7 @@ function renderChart() {
         data: {
             labels: productTitle,
             datasets: [{
-                label: 'Most Clicked',
+                label: 'Chosen Products',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 // TODO: get the "good" product data in here
@@ -196,7 +196,7 @@ function renderChart() {
             {
             label: 'Items Viewed',
                 backgroundColor: 'rgb(10, 200, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                // borderColor: 'rgb(255, 99, 132)',
                 // TODO: get the "good" product data in here
                 data: viewsArray
             }]
