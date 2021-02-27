@@ -212,6 +212,7 @@ createPictureInstances();
 
 pickNewPictures();
 
+
 renderNewImages();
 
 
